@@ -144,7 +144,6 @@ window.CONFIG = {
       url: 'https://stackoverflow.com',
       normalisedURL: 'stackoverflow.com',
       triggers: [
-        's',
         'st',
         'so',
         'stack',
@@ -252,9 +251,9 @@ window.CONFIG = {
       url: 'https://open.spotify.com',
       normalisedURL: 'spotify.com',
       triggers: [
+        's',
         'music',
         'sp',
-        's',
         'sfy',
         'spo',
         'spotify'
