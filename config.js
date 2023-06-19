@@ -150,7 +150,7 @@ window.CONFIG = {
         'stack',
         'stackoverflow'
       ],
-      key: 'KeyS',
+      key: 'KeyST',
       commands: {
         search: {
           template: '{@}/search?q={$}'
@@ -251,6 +251,7 @@ window.CONFIG = {
       icon: 'spotify',
       url: 'https://open.spotify.com',
       normalisedURL: 'spotify.com',
+      key: 'KeyS',
       triggers: [
         'music',
         'sp',
