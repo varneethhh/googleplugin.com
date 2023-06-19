@@ -329,7 +329,7 @@ window.CONFIG = {
       ],
       key: 'KeyN',
       icon: 'netflix',
-      url: 'hhttps://www.netflix.com/browse',
+      url: 'https://www.netflix.com/browse',
       normalisedURL: 'netflix.com',
       commands: {
         search: {
@@ -371,7 +371,33 @@ window.CONFIG = {
       textColor: '#e8e8e8',
       pinned: true
     },
-    }
+    {
+      category: 'Work',
+      name: 'Linkedin',
+      icon: 'linkedin',
+      key: 'KeyL',
+      triggers: [
+        'l',
+        'lk',
+        'li',
+        'linked',
+        'linkedin'
+      ],
+      url: 'https://linkedin.com',
+      normalisedURL: 'linkedin.com',
+      commands: {
+        search: {
+          template: '{@}/search/results/all/?keywords={$}'
+        }
+      },
+      bgColor: {
+        type: 'solid',
+        color: '#0077b7'
+      },
+      textColor: '#fff',
+      pinned: true
+    },
+    {
       category: 'Communication',
       name: 'Gmail',
       icon: 'gmail',
@@ -469,6 +495,50 @@ window.CONFIG = {
       },
       textColor: '#000',
       pinned: true
+    },
+    {
+      category: 'Work',
+      name: 'Slack',
+      icon: 'slack',
+      triggers: [
+        'sl',
+        'slack'
+      ],
+      url: 'https://app.slack.com',
+      normalisedURL: 'slack.com',
+      bgColor: {
+        type: 'gradient',
+        gradientType: 'linear',
+        angle: -200,
+        colors: ['#d6abb9', '#e6d7b8', '#bce2eb', '#8db0a4']
+      },
+      textColor: '#00bd6d',
+    },
+    {
+      category: 'Social',
+      name: 'VK',
+      triggers: [
+        'v',
+        'vk',
+        'vkontakte',
+      ],
+      url: 'https://vk.com',
+      normalisedURL: 'vk.com',
+      commands: {
+        go: {
+          template: '{@}/{$}',
+          description: 'go to'
+        },
+        search: {
+          template: '{@}/search?c%5Bq%5D={$}&c%5Bsection%5D=auto'
+        }
+      },
+      bgColor: {
+        type: 'gradient',
+        gradientType: 'linear',
+        colors: ['#0077ff', '#0033ff']
+      },
+      textColor: '#e8e8e8'
     },
     {
       category: 'Search',
