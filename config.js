@@ -251,10 +251,10 @@ window.CONFIG = {
       icon: 'spotify',
       url: 'https://open.spotify.com',
       normalisedURL: 'spotify.com',
-      key: 'KeyS',
       triggers: [
         'music',
         'sp',
+        's',
         'sfy',
         'spo',
         'spotify'
