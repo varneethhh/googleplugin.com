@@ -109,37 +109,6 @@ window.CONFIG = {
       textColor: '#fff',
       pinned: true
     },
-      category: 'Social',
-      name: 'KSEEB SOLUTIONS',
-      triggers: [
-        'k',
-        'K',
-        'KSEEB'
-        'kseeb'
-        'kse',
-      ],
-      key: 'KeyR',
-      icon: 'reddit',
-      url: 'https://kseebsolutions.guru/kseeb-solutions-class-8-kannada/',
-      normalisedURL: 'https://kseebsolutions.guru/tili-kannada-text-book-class-8-solutions',
-      commands: {
-        go: {
-          template: '{@}/r/{$}',
-          description: 'kannada ssolutiions'
-        },
-        search: {
-          template: '{@}/search?q={$}'
-        }
-      },
-      bgColor: {
-        type: 'gradient',
-        gradientType: 'linear',
-        colors: ['#0000FF', '#0047AB'],
-        stops: [0, 100]
-      },
-      textColor: '#fff',
-      pinned: true
-    },
     {
       category: 'Programming',
       name: 'GitHub',
