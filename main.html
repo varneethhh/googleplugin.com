@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>local docs</title>
+    <style>
+        /* --- General Styles & Gen-Z Aesthetic --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Space+Mono&display=swap');
+
+        :root {
+            --neon-green: #39FF14;
+            --dark-background: #0d0d0d;
+            --text-color: #ffffff;
+            --icon-hover-bg: rgba(57, 255, 20, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-background);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* --- Main Container --- */
+        .file-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            padding: 2rem 3rem;
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--neon-green);
+            text-shadow:
+                0 0 5px var(--neon-green),
+                0 0 10px var(--neon-green),
+                0 0 20px var(--neon-green);
+            animation: flicker 3s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 4px var(--neon-green),
+                0 0 11px var(--neon-green),
+                0 0 19px var(--neon-green);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        /* --- File List --- */
+        .file-list {
+            list-style: none;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-name-container {
+            flex-grow: 1;
+        }
+
+        .file-item .file-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        /* Style for the input field during rename */
+        .file-item input.rename-input {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background-color: #333;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            padding: 5px 8px;
+            outline: none;
+            width: 80%;
+            box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+        }
+
+        .file-item .file-actions {
+            display: flex;
+            gap: 1rem;
+            opacity: 0; /* Icons are hidden by default */
+            transition: opacity 0.4s ease;
+        }
+
+        .file-item:hover .file-actions {
+            opacity: 1; /* Show icons on hover */
+        }
+        
+        .file-item.is-renaming .file-actions {
+            opacity: 1; /* Keep icons visible during rename */
+        }
+
+        .file-item:hover .file-name {
+            color: var(--neon-green);
+            text-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+        }
+
+        .file-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .file-actions button:hover {
+            background-color: var(--icon-hover-bg);
+            transform: scale(1.1);
+        }
+
+        .file-actions button svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--neon-green);
+            stroke-width: 2;
+        }
+        
+        /* Hide/Show logic for buttons */
+        .rename-btn, .delete-btn, .download-btn { display: inline-flex; }
+        .save-btn { display: none; }
+
+        .is-renaming .rename-btn,
+        .is-renaming .delete-btn,
+        .is-renaming .download-btn {
+            display: none;
+        }
+        .is-renaming .save-btn {
+            display: inline-flex;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="file-container">
+        <header>
+            <h1>IMP DOCS</h1>
+        </header>
+        <main>
+            <ul class="file-list" id="fileList">
+                </ul>
+        </main>
+    </div>
+
+    <script>
+        // --- Backend Data Simulation ---
+        // To add or remove files, just edit this array.
+        const files = [
+            { name: " Self-organizing Neural System.pdf", path: "C:\\Users\\varne\\IDEAS\\GCUMV\\notes_&_docs\\self organizing neural network for background and foregroune by Maddalena &Petrosino.pdf" },
+            { name: "theft system doc 1", path:"C:\\Users\\varne\\Downloads\\Arroyo15eswa.pdf" },
+        
+        ];
+
+        // --- JavaScript Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileList = document.getElementById('fileList');
+
+            // Function to render the files in the list
+            window.renderFiles = function() {
+                fileList.innerHTML = ''; // Clear the list before rendering
+
+                files.forEach((file, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'file-item';
+                    listItem.setAttribute('data-index', index); // Set index for reference
+
+                    listItem.innerHTML = `
+                        <div class="file-name-container">
+                            <span class="file-name">${file.name}</span>
+                        </div>
+                        <div class="file-actions">
+                            <button class="download-btn" title="Download">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </button>
+                            <button class="rename-btn" title="Rename">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                            <button class="save-btn" title="Save">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                            </button>
+                            <button class="delete-btn" title="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                            </button>
+                        </div>
+                    `;
+                    fileList.appendChild(listItem);
+                });
+            }
+            
+            // --- EVENT LISTENERS (using event delegation) ---
+            fileList.addEventListener('click', (e) => {
+                const target = e.target.closest('button, .file-name');
+                if (!target) return; // Exit if click wasn't on a button or filename
+
+                const listItem = target.closest('.file-item');
+                const index = parseInt(listItem.dataset.index, 10);
+
+                // --- OPEN in new tab ---
+                if (target.classList.contains('file-name')) {
+                    // Prevent opening if the item is being renamed
+                    if (!listItem.classList.contains('is-renaming')) {
+                         window.open(files[index].path, '_blank');
+                    }
+                }
+
+                // --- DOWNLOAD button ---
+                if (target.matches('.download-btn, .download-btn *')) {
+                    alert(`Preparing to download "${files[index].name}"\n(This requires a real file path to work)`);
+                    // In a real scenario, you'd use:
+                    // window.location.href = files[index].path;
+                }
+
+                // --- RENAME button ---
+                if (target.matches('.rename-btn, .rename-btn *')) {
+                    const nameContainer = listItem.querySelector('.file-name-container');
+                    const currentName = files[index].name;
+
+                    // Replace span with input field
+                    nameContainer.innerHTML = `<input type="text" class="rename-input" value="${currentName}" />`;
+                    listItem.classList.add('is-renaming');
+                    
+                    // Focus the input and select text
+                    const input = nameContainer.querySelector('.rename-input');
+                    input.focus();
+                    input.select();
+                }
+
+                // --- SAVE button ---
+                if (target.matches('.save-btn, .save-btn *')) {
+                    const input = listItem.querySelector('.rename-input');
+                    const newName = input.value.trim();
+
+                    if (newName && newName !== files[index].name) {
+                        console.log(`Renaming "${files[index].name}" to "${newName}"`);
+                        files[index].name = newName; // Update the name in our data array
+                    }
+                    // Re-render the entire list to reflect the change
+                    renderFiles();
+                }
+
+                // --- DELETE button ---
+                if (target.matches('.delete-btn, .delete-btn *')) {
+                    const isConfirmed = confirm(`Are you sure you want to delete "${files[index].name}"?`);
+                    if (isConfirmed) {
+                        console.log(`Deleting: ${files[index].name}`);
+                        files.splice(index, 1); // Remove from the array
+                        renderFiles(); // Re-render the list
+                    }
+                }
+            });
+
+            renderFiles(); // Initial render
+        });
+    </script>
+
+</body>
+</html>
