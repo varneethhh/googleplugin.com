@@ -84,7 +84,7 @@ window.CONFIG = {
       name: 'DOCS',
       icon: 'DOCS',
       url: 'main.html',
-      normalisedURL: 'docs.com',
+      normalisedURL: '',
       triggers: [
         'd',
         'do',
