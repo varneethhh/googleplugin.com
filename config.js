@@ -79,6 +79,28 @@ window.CONFIG = {
       textColor: '#fff',
       pinned: true
     },
+     {
+      category: 'other',
+      name: 'DOCS',
+      icon: 'DOCS',
+      url: 'main.html',
+      normalisedURL: 'docs.com',
+      triggers: [
+        'd',
+        'do',
+        'D',
+        'DO',
+      ],
+      key: 'KeyD',
+      bgColor: {
+        type: 'gradient',
+        gradientType: 'linear',
+        angle: 45,
+        colors: ['#26d347', '#58f879']
+      },
+      textColor: '#fff',
+      pinned: true
+    },
     {
       category: 'Social',
       name: 'Reddit',
